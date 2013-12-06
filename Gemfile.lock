@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    env (0.3.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
     httpauth (0.2.0)
@@ -30,6 +31,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  env
   json
   oauth2
   sinatra
