@@ -50,3 +50,31 @@ get '/moves/profile' do
   @json = access_token.get("/api/v1/user/profile").parsed
   erb :profile, :layout => !request.xhr?
 end
+
+get 'moves/recent' do
+  @json  = access_token.get("/api/v1/user/summary/daily?pastDays=7").parsed
+  @steps = @json.map do |day|
+    unless day['summary'].nil?
+      (day['summary'].find { |a| a['activity'] == 'wlk' })["steps"]
+    else
+      0
+    end
+  end
+  erb :recent, :layout => !request.xhr?
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
