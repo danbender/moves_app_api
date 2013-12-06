@@ -15,7 +15,7 @@ def client
   )
 end
 
-get '/' do
+get "/" do
   if !session[:access_token].nil?
     erb :index
   else
@@ -24,14 +24,14 @@ get '/' do
   end
 end
 
-get 'moves/logout' do
-  session[:access_token] = nil
+get '/moves/logout' do
+  session[:access_token]  = nil
   redirect '/'
 end
 
 get '/auth/moves/callback' do
   new_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
-  session[:access_token] = new_token.token
+  session[:access_token]  = new_token.token
   redirect '/'
 end
 
@@ -44,4 +44,9 @@ end
 
 def access_token
   OAuth2::AccessToken.new(client, session[:access_token], :refresh_token => session[:refresh_token])
+end
+
+get '/moves/profile' do
+  @json = access_token.get("/api/v1/user/profile").parsed
+  erb :profile, :layout => !request.xhr?
 end
