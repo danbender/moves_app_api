@@ -1,4 +1,8 @@
-# This file is used by Rack-based servers to start the application.
+require 'rubygems'
+require 'bundler'
 
-require ::File.expand_path('../config/environment',  __FILE__)
-run MovesAppApi::Application
+Bundler.require
+
+require File.expand_path(File.dirname(__FILE__) + '/app')
+
+run Sinatra::Application
