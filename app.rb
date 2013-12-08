@@ -3,7 +3,9 @@ require 'oauth2'
 require 'json'
 require 'date'
 
+# access tokens will be stored in the session
 enable :sessions
+set    :session_secret, 'super secret'
 
 helpers do
   def format_date(date_str)
@@ -17,8 +19,7 @@ def client
     ENV['MOVES_CLIENT_SECRET'],
     :site => 'https://api.moves-app.com',
     :authorize_url => 'moves://app/authorize',
-    :token_url => 'https://api.moves-app.com/oauth/v1/access_token'
-  )
+    :token_url => 'https://api.moves-app.com/oauth/v1/access_token')
 end
 
 get "/" do
@@ -57,30 +58,14 @@ get '/moves/profile' do
   erb :profile, :layout => !request.xhr?
 end
 
-get 'moves/recent' do
-  @json  = access_token.get("/api/v1/user/summary/daily?pastDays=7").parsed
-  @steps = @json.map do |day|
-    unless day['summary'].nil?
-      (day['summary'].find { |a| a['activity'] == 'wlk' })["steps"]
+get '/moves/recent' do
+  @json = access_token.get("/api/v1/user/summary/daily?pastDays=7").parsed
+  @steps = @json.map { |day|
+    unless day["summary"].nil?
+      (day["summary"].find { |a| a["activity"] == "wlk"})["steps"]
     else
       0
     end
-  end
+  }
   erb :recent, :layout => !request.xhr?
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
