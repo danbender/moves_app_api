@@ -1,0 +1,9 @@
+<div data-role="page">
+  <div data-role="header">Profile</div>
+  <div data-role="content">
+    <ul data-role="listview">
+      <li>User ID: <%= @json["userID"] %></li>
+      <li> Date joined: <%= format_date(@json["profile"]["firstDate"]) %></li>
+    </ul>
+  </div>
+</div>
