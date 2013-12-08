@@ -5,6 +5,12 @@ require 'date'
 
 enable :sessions
 
+helpers do
+  def format_date(date_str)
+    Date.parse(date_str).strftime("%B %d, %Y")
+  end
+end
+
 def client
   OAuth2::Client.new(
     ENV['MOVES_CLIENT_ID'],
